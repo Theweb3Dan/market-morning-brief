@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market Morning Brief — live CMC data, plain English</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="brand">Market <em>Morning</em> Brief</div>
+  <div id="sourceBadge" class="badge">loading…</div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>What the market did while you <em>slept</em>.</h1>
+    <p class="sub">Live CoinMarketCap data, translated into plain English in 60 seconds — plus a ready-to-post brief for creators and community leads.</p>
+    <p id="dateLine" class="date"></p>
+    <button id="generateBtn" class="cta">Generate today's brief</button>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>Market mood</h2>
+      <div id="moodValue" class="big">—</div>
+      <p id="moodLine" class="note">Loading…</p>
+    </article>
+    <article class="card">
+      <h2>Regime</h2>
+      <div id="regimeValue" class="big">—</div>
+      <p id="regimeLine" class="note">Loading…</p>
+    </article>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>Biggest gainers · 24h</h2>
+      <ul id="gainers" class="rows"></ul>
+    </article>
+    <article class="card">
+      <h2>Biggest losers · 24h</h2>
+      <ul id="losers" class="rows"></ul>
+    </article>
+  </section>
+
+  <section class="card wide">
+    <h2>Watchlist</h2>
+    <ul id="watchlist" class="rows"></ul>
+  </section>
+
+  <section id="briefSection" class="card wide" hidden>
+    <h2>Your brief</h2>
+    <h3>X thread draft — edit before you post</h3>
+    <div id="thread"></div>
+    <button id="copyThread" class="cta small">Copy whole thread</button>
+    <h3>Paragraph version — Telegram / Discord</h3>
+    <textarea id="paragraph" rows="5" readonly></textarea>
+    <button id="copyParagraph" class="cta small">Copy paragraph</button>
+  </section>
+
+  <section class="card wide">
+    <h2>Evidence — real API calls</h2>
+    <p class="note">Every number above comes from these CoinMarketCap endpoints. Expand to see the live response sample for each call.</p>
+    <div id="evidence"></div>
+  </section>
+
+  <footer>
+    <p>Built for the Build with CMC: API Hackathon, Round 2 · Track: AI Agents and Automation · Data: CoinMarketCap API · Not financial advice.</p>
+  </footer>
+</main>
+<script src="brief.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

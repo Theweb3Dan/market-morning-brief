@@ -1,0 +1,30 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:'Poppins',system-ui,sans-serif;background:#fff;color:#0F2A44}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:3px solid #0F2A44}
+.brand{font-weight:800;font-size:20px}.brand em{color:#2f6fd0;font-style:normal}
+.badge{font-size:12px;font-weight:600;padding:6px 10px;border-radius:999px;background:#E3EBF5;color:#0F2A44}
+.badge.live{background:#0F2A44;color:#fff}
+main{max-width:980px;margin:0 auto;padding:22px}
+.hero h1{font-size:clamp(30px,6vw,52px);line-height:1.08;margin:10px 0}.hero h1 em{color:#2f6fd0;font-style:italic}
+.sub{font-size:17px;color:#33506f;max-width:640px}.date{color:#6b84a0;font-size:14px}
+.cta{background:#0F2A44;color:#fff;border:0;border-radius:12px;padding:14px 22px;font-family:inherit;font-weight:600;font-size:16px;cursor:pointer}
+.cta.small{padding:9px 16px;font-size:14px;margin:8px 0 16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.card{background:#F4F8FC;border:1px solid #C6D5E4;border-radius:16px;padding:18px;margin:16px 0}
+.card h2{margin:0 0 8px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#2f6fd0}
+.card h3{margin:16px 0 8px;font-size:15px}
+.big{font-size:38px;font-weight:800}
+.note{color:#33506f;font-size:14px}
+.rows{list-style:none;margin:0;padding:0}
+.rows li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #dde7f1;font-size:15px}
+.rows li:last-child{border-bottom:0}
+.up{color:#0a7a42;font-weight:600}.down{color:#b3261e;font-weight:600}
+textarea{width:100%;border:1px solid #C6D5E4;border-radius:10px;padding:10px;font-family:inherit;font-size:14px;background:#fff;color:#0F2A44}
+.post{border:1px solid #C6D5E4;background:#fff;border-radius:10px;padding:10px;margin:8px 0}
+.post textarea{border:0;padding:0;resize:vertical}
+.post .count{text-align:right;font-size:12px;color:#6b84a0}
+details{border-top:1px solid #dde7f1;padding:8px 0}
+details summary{cursor:pointer;font-size:13px;font-weight:600}
+details pre{white-space:pre-wrap;word-break:break-all;font-size:11px;background:#fff;border:1px solid #dde7f1;border-radius:8px;padding:8px}
+footer{color:#6b84a0;font-size:12px;padding:10px 0 30px}
