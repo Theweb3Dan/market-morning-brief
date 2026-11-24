@@ -51,14 +51,18 @@ No key? The app runs in **clearly-labelled demo mode** with sample data in the s
 
 ## What the API made possible — and where it got in the way
 
-*Made possible:* combining sentiment (Fear & Greed), regime (Altcoin Season + dominance) and movers in a single aggregated call gives a *narrative*, not just numbers — that combination is the whole product. The trending/gainers-losers endpoint on the Startup tier removed the need to page through full listings to find movers.
+*Made possible:* combining sentiment (Fear & Greed), regime (Altcoin Season + dominance) and movers in a single aggregated call gives a *narrative*, not just numbers — that combination is the whole product. One key per section and a small server-side proxy kept the browser code trivial and the API key off the client entirely.
 
-*Got in the way:* (to be completed from live build notes before submission — e.g. response-shape differences between v1 quotes (object keyed by symbol) and v3 quotes (quote as a list) require defensive normalisation, which lives in `server.js`.)
+*Got in the way (all found during the live build, 24 Nov 2026):*
+- The two trending endpoints (`/v1/cryptocurrency/trending/latest` and `/v1/cryptocurrency/trending/gainers-losers`) are gated above the Basic plan, and the hackathon Startup grant had not landed a day after DoraHacks registration. The app therefore derives its movers from `listings/latest` (top 100 by market cap, stablecoins filtered out, moves under 0.1% ignored) and labels that derivation honestly in its evidence panel until the grant arrives. A plan check at startup, or the grant landing with registration, would remove this whole fallback path.
+- Response shapes differ between endpoints: quotes arrive as an object keyed by symbol, listings as an array, and the USD quote is an object on some endpoints and a list on others. Every section needs defensive normalisation (see `coinRow`/`usdQuote`/`asArray` in `server.js`), which is easy to get subtly wrong — our first live build silently kept demo movers because the demo seed data was non-empty.
+- The API mixes versions in one product surface: Fear & Greed is v3 while quotes, listings, global metrics and Altcoin Season are v1, and the Altcoin Season value does not sit in the same field shape as the other sentiment response.
+- Wider listings pulls cost more credits per call, so the server caches per endpoint (quotes 60s, sentiment 15 min) — workable, but a movers-only endpoint on the entry plan would make this class of app much cheaper to run.
 
 ## Submission checklist (hackathon)
 
 - [x] Public repository
-- [ ] Working deployed demo
+- [x] Working deployed demo
 - [ ] Screen recording of it running
 - [x] Endpoints named explicitly (above)
 - [x] Visible evidence of real API calls (evidence panel + code in `server.js`)

@@ -11,7 +11,7 @@ const ENDPOINTS = [
   { key: 'gainersLosers', path: '/v1/cryptocurrency/trending/gainers-losers?time_period=24h' },
   { key: 'trending', path: '/v1/cryptocurrency/trending/latest' },
   { key: 'quotes', path: '/v1/cryptocurrency/quotes/latest?symbol=BTC,ETH,SOL' },
-  { key: 'listings', path: '/v1/cryptocurrency/listings/latest?limit=20&sort=market_cap' },
+  { key: 'listings', path: '/v1/cryptocurrency/listings/latest?limit=100&sort=market_cap' },
 ];
 function usdQuote(obj) {
   if (!obj) return {};
@@ -52,10 +52,21 @@ function normalize(raw) {
       }
       if (ep.key === 'trending') out.trending = asArray(d).slice(0, 10).map((c) => ({ name: c.name, symbol: c.symbol }));
       if (ep.key === 'quotes') out.watchlist = asArray(d).map(coinRow);
-      if (ep.key === 'listings' && (!out.gainers.length)) {
+      if (ep.key === 'listings') {
         const rows = asArray(d).map(coinRow).filter((c) => c.percentChange24h != null);
-        out.gainers = rows.slice().sort((a, b) => b.percentChange24h - a.percentChange24h).slice(0, 5);
-        out.losers = rows.slice().sort((a, b) => a.percentChange24h - b.percentChange24h).slice(0, 5);
+        if (!raw.gainersLosers) {
+          const STABLES = ['USDT', 'USDC', 'DAI', 'USDE', 'FDUSD', 'TUSD', 'USDD', 'PYUSD', 'GUSD', 'FRAX', 'LUSD', 'USD1', 'RLUSD', 'USDS', 'USDX', 'EURC', 'USDG', 'USDP', 'EURT', 'XUSD', 'AUSD', 'USDB'];
+          const movers = rows.filter((c) => STABLES.indexOf(c.symbol) === -1);
+          out.gainers = movers.filter((c) => c.percentChange24h > 0.1).sort((a, b) => b.percentChange24h - a.percentChange24h).slice(0, 5);
+          out.losers = movers.filter((c) => c.percentChange24h < -0.1).sort((a, b) => a.percentChange24h - b.percentChange24h).slice(0, 5);
+          const ev = out.evidence.find((e) => e.endpoint.indexOf('gainers-losers') !== -1);
+          if (ev) ev.status = 'unavailable on current plan — top movers derived live from listings/latest';
+        }
+        if (!raw.trending) {
+          out.trending = rows.slice(0, 10).map((c) => ({ name: c.name, symbol: c.symbol }));
+          const ev = out.evidence.find((e) => e.endpoint.indexOf('trending/latest') !== -1);
+          if (ev) ev.status = 'unavailable on current plan — top coins by market cap from listings/latest shown instead';
+        }
       }
     } catch (e) { out.evidence[out.evidence.length - 1].status = 'live but unexpected shape — demo fallback for this section'; }
   }
